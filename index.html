@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>PrepTrack | Placement Dashboard</title>
+
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Our CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ==============================
+     LOGIN SCREEN
+================================ -->
+
+<div id="loginScreen" class="login-screen">
+
+    <div class="login-card">
+
+        <div class="logo">
+            ⚡ PrepTrack
+        </div>
+
+        <h1>Welcome Back 👋</h1>
+
+        <p>
+            Your personal placement preparation dashboard
+        </p>
+
+        <input
+            type="text"
+            id="usernameInput"
+            placeholder="Enter your name"
+        >
+
+        <button onclick="loginUser()" class="primary-btn">
+            Enter Dashboard →
+        </button>
+
+        <small>
+            Frontend-only demo login
+        </small>
+
+    </div>
+
+</div>
+
+
+<!-- ==============================
+     MAIN APPLICATION
+================================ -->
+
+<div id="app" class="app hidden">
+
+    <!-- ==========================
+         SIDEBAR
+    =========================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            ⚡ PrepTrack
+        </div>
+
+        <p class="sidebar-subtitle">
+            Placement Preparation
+        </p>
+
+        <nav>
+
+            <a href="#dashboard">
+                🏠 Dashboard
+            </a>
+
+            <a href="#coding">
+                💻 Coding Tracker
+            </a>
+
+            <a href="#subjects">
+                📚 Subjects
+            </a>
+
+            <a href="#goals">
+                🎯 Goals
+            </a>
+
+            <a href="#calendar">
+                📅 Calendar
+            </a>
+
+            <a href="#analytics">
+                📊 Analytics
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <button
+                id="themeButton"
+                onclick="toggleDarkMode()"
+                class="secondary-btn"
+            >
+                🌙 Dark Mode
+            </button>
+
+            <button
+                onclick="logoutUser()"
+                class="logout-btn"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ==========================
+         MAIN CONTENT
+    =========================== -->
+
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <span class="small-heading">
+                    PLACEMENT PREPARATION
+                </span>
+
+                <h1>
+                    Hi, <span id="displayUsername">Student</span> 👋
+                </h1>
+
+                <p>
+                    Build consistency. Track progress.
+                    Get placement-ready.
+                </p>
+
+            </div>
+
+
+            <div class="profile-area">
+
+                <button
+                    onclick="enableNotifications()"
+                    class="notification-btn"
+                    title="Enable Notifications"
+                >
+                    🔔
+                </button>
+
+                <div
+                    id="profileAvatar"
+                    class="profile-avatar"
+                >
+                    S
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- NOTIFICATION MESSAGE -->
+
+        <div
+            id="notificationBox"
+            class="notification-box hidden"
+        ></div>
+
+
+        <!-- ==========================
+             STATISTICS
+        =========================== -->
+
+        <section
+            id="dashboard"
+            class="stats-container"
+        >
+
+            <div class="stat-card">
+
+                <span>
+                    📚 Study Hours
+                </span>
+
+                <strong id="studyHours">
+                    0
+                </strong>
+
+                <small>
+                    Total hours
+                </small>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    💻 Problems Solved
+                </span>
+
+                <strong id="problemsSolved">
+                    0
+                </strong>
+
+                <small>
+                    Coding problems
+                </small>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    📈 Overall Progress
+                </span>
+
+                <strong id="overallProgress">
+                    0%
+                </strong>
+
+                <small>
+                    All subjects
+                </small>
+
+            </div>
+
+
+            <div class="stat-card streak-card">
+
+                <span>
+                    🔥 Current Streak
+                </span>
+
+                <strong id="currentStreak">
+                    0
+                </strong>
+
+                <small>
+                    Longest:
+                    <span id="longestStreak">
+                        0
+                    </span>
+                    days
+                </small>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================
+             QUICK PROGRESS
+        =========================== -->
+
+        <section class="two-column">
+
+            <div class="card">
+
+                <div class="section-title">
+
+                    <div>
+
+                        <span class="small-heading">
+                            QUICK UPDATE
+                        </span>
+
+                        <h2>
+                            Track Study Time
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <input
+                        type="number"
+                        id="studyInput"
+                        min="0.1"
+                        step="0.1"
+                        placeholder="Study hours e.g. 2"
+                    >
+
+                    <button
+                        onclick="addStudyHours()"
+                        class="primary-btn"
+                    >
+                        Add Hours
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ======================
+                 SMART RECOMMENDATION
+            ======================= -->
+
+            <div class="card recommendation-card">
+
+                <span class="small-heading">
+                    SMART INSIGHTS
+                </span>
+
+                <h2>
+                    🧠 Personalized Recommendation
+                </h2>
+
+                <div id="recommendations">
+
+                    <p>
+                        Add your progress to receive
+                        personalized recommendations.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================
+             CODING TRACKER
+        =========================== -->
+
+        <section
+            id="coding"
+            class="card"
+        >
+
+            <div class="section-title">
+
+                <div>
+
+                    <span class="small-heading">
+                        PRACTICE
+                    </span>
+
+                    <h2>
+                        💻 Coding Tracker
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="coding-form">
+
+                <input
+                    id="problemTitle"
+                    type="text"
+                    placeholder="Problem name"
+                >
+
+
+                <select id="codingPlatform">
+
+                    <option value="LeetCode">
+                        LeetCode
+                    </option>
+
+                    <option value="HackerRank">
+                        HackerRank
+                    </option>
+
+                    <option value="CodeChef">
+                        CodeChef
+                    </option>
+
+                    <option value="GeeksforGeeks">
+                        GeeksforGeeks
+                    </option>
+
+                </select>
+
+
+                <select id="difficulty">
+
+                    <option value="Easy">
+                        Easy
+                    </option>
+
+                    <option value="Medium">
+                        Medium
+                    </option>
+
+                    <option value="Hard">
+                        Hard
+                    </option>
+
+                </select>
+
+
+                <select id="problemStatus">
+
+                    <option value="Solved">
+                        Solved
+                    </option>
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                </select>
+
+
+                <button
+                    onclick="addCodingProblem()"
+                    class="primary-btn"
+                >
+                    + Add Problem
+                </button>
+
+            </div>
+
+
+            <!-- CODING SUMMARY -->
+
+            <div class="mini-stats">
+
+                <div>
+                    🟢 Easy:
+                    <strong id="easyCount">
+                        0
+                    </strong>
+                </div>
+
+                <div>
+                    🟡 Medium:
+                    <strong id="mediumCount">
+                        0
+                    </strong>
+                </div>
+
+                <div>
+                    🔴 Hard:
+                    <strong id="hardCount">
+                        0
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <!-- CODING TABLE -->
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Problem
+                            </th>
+
+                            <th>
+                                Platform
+                            </th>
+
+                            <th>
+                                Difficulty
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="codingTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================
+             SUBJECT PROGRESS
+        =========================== -->
+
+        <section
+            id="subjects"
+            class="two-column"
+        >
+
+            <div class="card">
+
+                <span class="small-heading">
+                    LEARNING
+                </span>
+
+                <h2>
+                    📚 Subject Progress
+                </h2>
+
+
+                <div id="subjectList">
+
+                </div>
+
+            </div>
+
+
+            <!-- SUBJECT UPDATE -->
+
+            <div class="card">
+
+                <span class="small-heading">
+                    UPDATE
+                </span>
+
+                <h2>
+                    Update Subject
+                </h2>
+
+
+                <select id="subjectSelect">
+
+                </select>
+
+
+                <input
+                    type="number"
+                    id="subjectProgress"
+                    min="0"
+                    max="100"
+                    placeholder="Progress %"
+                >
+
+
+                <button
+                    onclick="updateSubject()"
+                    class="primary-btn full-width"
+                >
+                    Update Progress
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================
+             GOALS
+        =========================== -->
+
+        <section
+            id="goals"
+            class="card"
+        >
+
+            <span class="small-heading">
+                DAILY TARGETS
+            </span>
+
+            <h2>
+                🎯 Today's Goals
+            </h2>
+
+
+            <div class="goal-input">
+
+                <input
+                    id="goalInput"
+                    type="text"
+                    placeholder="Enter today's goal"
+                >
+
+                <button
+                    onclick="addGoal()"
+                    class="primary-btn"
+                >
+                    Add Goal
+                </button>
+
+            </div>
+
+
+            <div id="goalList">
+
+            </div>
+
+
+            <div
+                id="goalProgress"
+                class="goal-progress"
+            >
+                0 / 0 completed
+            </div>
+
+        </section>
+
+
+        <!-- ==========================
+             CALENDAR
+        =========================== -->
+
+        <section
+            id="calendar"
+            class="card"
+        >
+
+            <div class="section-title">
+
+                <div>
+
+                    <span class="small-heading">
+                        CONSISTENCY
+                    </span>
+
+                    <h2>
+                        📅 Activity Calendar
+                    </h2>
+
+                </div>
+
+
+                <div class="calendar-controls">
+
+                    <button onclick="previousMonth()">
+                        ←
+                    </button>
+
+                    <strong id="calendarMonth">
+                        Month
+                    </strong>
+
+                    <button onclick="nextMonth()">
+                        →
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="calendarGrid"
+                class="calendar-grid"
+            >
+
+            </div>
+
+
+            <div
+                id="selectedDay"
+                class="selected-day"
+            >
+                Select a date to view activity.
+            </div>
+
+        </section>
+
+
+        <!-- ==========================
+             ANALYTICS
+        =========================== -->
+
+        <section
+            id="analytics"
+            class="two-column"
+        >
+
+            <div class="card">
+
+                <span class="small-heading">
+                    ANALYTICS
+                </span>
+
+                <h2>
+                    📊 Subject Performance
+                </h2>
+
+                <canvas id="subjectChart"></canvas>
+
+            </div>
+
+
+            <div class="card">
+
+                <span class="small-heading">
+                    ACTIVITY
+                </span>
+
+                <h2>
+                    📈 Study & Coding
+                </h2>
+
+                <canvas id="activityChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================
+             NOTIFICATION / REMINDER
+        =========================== -->
+
+        <section class="card reminder-card">
+
+            <span class="small-heading">
+                REMINDERS
+            </span>
+
+            <h2>
+                🔔 Daily Reminder
+            </h2>
+
+            <p>
+                Enable browser notifications to receive
+                reminders about your placement preparation.
+            </p>
+
+            <button
+                onclick="enableNotifications()"
+                class="primary-btn"
+            >
+                Enable Notifications
+            </button>
+
+        </section>
+
+
+        <footer>
+
+            <p>
+                ⚡ PrepTrack — Smart Placement
+                Preparation Dashboard
+            </p>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- JavaScript -->
+<script src="script.js"></script>
+
+</body>
+</html>
